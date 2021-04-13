@@ -2,27 +2,30 @@
 
 /**
  * main - Start a UNIX command line interpreter.
+ * @argc: Arguments counter.
+ * @argv: Arguments string array.
  *
- * Return: Exit code of the program (salida).
+ * Return: Exit code of the program (salir).
  */
-int main(void)
+int main(int argc, char *argv[])
 {
 	char *buffer = NULL, **commands = NULL;
 	size_t bufsize = 256;
-	int characters, salida = 0, recorrido = 1;
-	directories *path_lista = path_directories();
+	int characters, salir = 0, recorrido = 1, line = 0;
+	dir *path_lista = path_directories();
+	(void)argc, (void)argv;
 
 	signal(SIGINT, SIG_IGN);
-
 	while (recorrido)
 	{
+		line++;
 		recorrido = isatty(STDIN_FILENO);
 		if (recorrido == 1)
 			write(1, "~$ ", 3);
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == EOF)
 		{
-			n_exit(&path_lista, buffer, salida);
+			n_exit(&path_lista, buffer, salir);
 		}
 		else if (characters == 1)
 			continue;
@@ -32,13 +35,17 @@ int main(void)
 		commands = split_input(buffer);
 		if (commands == NULL)
 		{
-			dprintf(2, "malloc error");
-			exit(91);
+			_printf(2, "malloc error");
+			exit(1);
 		}
-		if (b_ins(commands, &path_lista, buffer, salida) == 1)
+		if (b_ins(commands, &path_lista, buffer, salir) == 1)
+			continue;
+		else if (comprueba(line, &salir, commands, argv, path_lista) != 1)
 			continue;
 		else
-			call_fork(commands, path_lista, &salida);
+			call_fork(commands);
 	}
-	return (salida);
+	return (salir);
 }
+
+
