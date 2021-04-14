@@ -80,7 +80,7 @@ char *_strcat(char *dest, char *src)
  *
  */
 
-char *_strdup(char *str)
+char *_strdup(const char *str)
 {
 	int i;
 	int length = 0;
