@@ -6,23 +6,24 @@
  * @salir: Exit code of the program.
  * @commands: Double pointer to string tha contains the commands.
  * @argv: Arguments string array.
- * @lista: Pointer to linked-list that contain the PATH directories.
  * Return: 1 if exists, 0 if not.
  */
-int comprueba(int line, int *salir, char **commands, char *argv[], dir *lista)
+int comprueba(int line, int *salir, char **commands, char *argv[])
 {
 	int i;
-	*salir = 0;
+	dir *lista = path_directories();
 
+	*salir = 0;
 	if (access(commands[0], F_OK) != 0)
 	{
-		if (existencia(&commands[0], lista) == 0)
+		if (existencia(&commands[0]) == 0)
 		{
 			_printf(2, "%s: %d: %s: not found\n", argv[0], line, commands[0]);
 			for (i =  0; commands[i]; i++)
 				free(commands[i]);
 			free(commands[i]);
 			free(commands);
+			free_list(&lista);
 			*salir = 127;
 			return (-1);
 		}
@@ -35,43 +36,48 @@ int comprueba(int line, int *salir, char **commands, char *argv[], dir *lista)
 			free(commands[i]);
 		free(commands[i]);
 		free(commands);
+		free_list(&lista);
 		*salir = 126;
 		return (-1);
 	}
+	free_list(&lista);
 	return (1);
 }
 
 /**
  * existencia - Check if a command file exist in the PATH directories.
  * @command_0: The commando to find.
- * @lista: Pointer to linked-list that contain the directories.
  *
  * Return: 1 if file exists, 0 if not.
  */
-int existencia(char **command_0, dir *lista)
+int existencia(char **command_0)
 {
+	dir *lista = path_directories();
+	dir *tmp = lista;
 	char str[100];
 
-	while (lista != NULL)
+	while (tmp != NULL)
 	{
-		_strcpy(str, lista->directory);
+		_strcpy(str, tmp->directory);
 		_strcat(str, "/");
 		_strcat(str, *command_0);
 		if (access(str, F_OK) == 0)
 		{
+			free_list(&lista);
 			free(*command_0);
 			*command_0 = _strdup(str);
 			return (1);
 		}
-		lista = lista->next;
+		tmp = tmp->next;
 	}
+	free_list(&lista);
 	return (0);
 }
 
 /**
  * call_fork - Check if a command exists, and executes it.
  * @commands: Double pointer to string tha contains the commands.
- *
+ * @salir: pinter to exit code.
  * Return: 0 if succes, -1 if not.
  */
 int call_fork(char **commands, int *salir)

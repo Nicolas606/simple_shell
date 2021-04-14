@@ -41,9 +41,9 @@ char **split_input(char *buffer);
 
 void quit_spaces(char **commands);
 
-int comprueba(int line, int *salir, char **commands, char *argv[], dir *lista);
+int comprueba(int line, int *salir, char **commands, char *argv[]);
 
-int existencia(char **command_0, dir *lista);
+int existencia(char **command_0);
 
 /*fork.c*/
 
@@ -61,9 +61,9 @@ void free_list(dir **head);
 
 /*built_ins.c*/
 
-int b_ins(char **commands, dir **path_lista, char *buffer, int salida);
+int b_ins(char **commands, char *buffer, int salida);
 
-void n_exit(dir **path_lista, char *buffer, int salida);
+void n_exit(char *buffer, int salida);
 
 void env(void);
 
