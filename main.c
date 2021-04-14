@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 		else if (comprueba(line, &salir, commands, argv, path_lista) != 1)
 			continue;
 		else
-			call_fork(commands);
+			call_fork(commands, &salir);
 	}
 	return (salir);
 }
