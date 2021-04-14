@@ -55,9 +55,9 @@ char **split_input(char *buffer)
 			_printf(2, "malloc error"), exit(1);
 		}
 		if (i == 0)
-			strcpy(commands[i], strtok(buffer, " "));
+			_strcpy(commands[i], strtok(buffer, " "));
 		else
-			strcpy(commands[i], strtok(NULL, " "));
+			_strcpy(commands[i], strtok(NULL, " "));
 	}
 	commands[i] = NULL;
 	quit_spaces(commands);

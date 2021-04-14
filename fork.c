@@ -1,7 +1,7 @@
 #include "holberton.h"
 
 /**
- * comprueba -
+ * comprueba - Check if command exist in directory or environment.
  * @line: Number of line write by the user.
  * @salir: Exit code of the program.
  * @commands: Double pointer to string tha contains the commands.
@@ -81,7 +81,7 @@ int call_fork(char **commands)
 	pidC = fork();
 	if (pidC == 0)
 	{
-		execve(commands[0], commands, NULL);
+		execve(commands[0], commands, environ);
 	}
 	else if (pidC > 0)
 	{

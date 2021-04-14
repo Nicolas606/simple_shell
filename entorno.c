@@ -58,7 +58,7 @@ dir *add_node(dir **head, const char *str)
 		free(new);
 		return (0);
 	}
-	new->directory = strdup(str);
+	new->directory = _strdup(str);
 	if (new->directory == 0)
 	{
 		free(new);
