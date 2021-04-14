@@ -11,7 +11,6 @@
 int comprueba(int line, int *salir, char **commands, char *argv[])
 {
 	int i;
-	dir *lista = path_directories();
 
 	*salir = 0;
 	if (access(commands[0], F_OK) != 0)
@@ -23,7 +22,6 @@ int comprueba(int line, int *salir, char **commands, char *argv[])
 				free(commands[i]);
 			free(commands[i]);
 			free(commands);
-			free_list(&lista);
 			*salir = 127;
 			return (-1);
 		}
@@ -36,11 +34,9 @@ int comprueba(int line, int *salir, char **commands, char *argv[])
 			free(commands[i]);
 		free(commands[i]);
 		free(commands);
-		free_list(&lista);
 		*salir = 126;
 		return (-1);
 	}
-	free_list(&lista);
 	return (1);
 }
 
@@ -63,14 +59,12 @@ int existencia(char **command_0)
 		_strcat(str, *command_0);
 		if (access(str, F_OK) == 0)
 		{
-			free_list(&lista);
 			free(*command_0);
 			*command_0 = _strdup(str);
 			return (1);
 		}
 		tmp = tmp->next;
 	}
-	free_list(&lista);
 	return (0);
 }
 
