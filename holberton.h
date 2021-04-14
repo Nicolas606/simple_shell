@@ -47,7 +47,7 @@ int existencia(char **command_0, dir *lista);
 
 /*fork.c*/
 
-int call_fork(char **commands);
+int call_fork(char **commands, int *salir);
 
 /*entorno.c*/
 

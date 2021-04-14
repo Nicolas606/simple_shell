@@ -50,7 +50,6 @@ void n_exit(dir **path_lista, char *buffer, int salida)
 {
 	free_list(path_lista);
 	free(buffer);
-	_printf(1, "\n");
 	exit(salida);
 }
 

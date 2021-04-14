@@ -74,7 +74,7 @@ int existencia(char **command_0, dir *lista)
  *
  * Return: 0 if succes, -1 if not.
  */
-int call_fork(char **commands)
+int call_fork(char **commands, int *salir)
 {
 	int pidC, status, i;
 
@@ -85,6 +85,7 @@ int call_fork(char **commands)
 	}
 	else if (pidC > 0)
 	{
+		*salir = WEXITSTATUS(status);
 		wait(&status);
 		for (i = 0; commands[i]; i++)
 			free(commands[i]);
