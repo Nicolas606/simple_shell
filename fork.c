@@ -54,13 +54,13 @@ int existencia(char **command_0, dir *lista)
 
 	while (lista != NULL)
 	{
-		strcpy(str, lista->directory);
-		strcat(str, "/");
-		strcat(str, *command_0);
+		_strcpy(str, lista->directory);
+		_strcat(str, "/");
+		_strcat(str, *command_0);
 		if (access(str, F_OK) == 0)
 		{
 			free(*command_0);
-			*command_0 = strdup(str);
+			*command_0 = _strdup(str);
 			return (1);
 		}
 		lista = lista->next;

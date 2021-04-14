@@ -14,7 +14,7 @@ int b_ins(char **commands, dir **path_lista, char *buffer, int salida)
 	char *nuestras[2] = {"exit", "env"};
 	int i = 0;
 
-	if ((strcmp(nuestras[0], commands[0])) == 0)
+	if ((_strcmp(nuestras[0], commands[0])) == 0)
 	{
 		while (commands[i])
 		{
@@ -25,7 +25,7 @@ int b_ins(char **commands, dir **path_lista, char *buffer, int salida)
 		free(commands);
 		n_exit(path_lista, buffer, salida);
 	}
-	else if ((strcmp(nuestras[1], commands[0])) == 0)
+	else if ((_strcmp(nuestras[1], commands[0])) == 0)
 	{
 		while (commands[i])
 		{
