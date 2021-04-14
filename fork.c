@@ -85,8 +85,8 @@ int call_fork(char **commands, int *salir)
 	}
 	else if (pidC > 0)
 	{
-		*salir = WEXITSTATUS(status);
 		wait(&status);
+		*salir = WEXITSTATUS(status);
 		for (i = 0; commands[i]; i++)
 			free(commands[i]);
 		free(commands[i]);
