@@ -1,0 +1,95 @@
+man_1_simple_shell     Holberton Programmer's Manual    man_1_simple_shell
+
+NAME
+
+         simple_shell - (Own version)
+
+SYNOPSIS
+
+
+
+DESCRIPTION
+
+The ./hsh (hsh) executes a replica of the sh command in linux, which opens a
+command interpreter, our version works with the user's environment, so you can 
+"write" the full path of the command "/ bin / ls "or the command only "ls"and 
+also allows to receive the arguments of the functions" ls -la ". The hsh 
+evaluates if the command is "delivered" from the terminal (interactive way) or 
+if it is given in another way (non-interactive way). Each command that the user 
+writes enters as a single string that is stored in a buffer, this is divided 
+into words and its existence is evaluated either as a built-in or if it is in 
+the user's PATH. If the command does not exist or its arguments are not valid, 
+print an error message in the standard error and start the click again from the 
+promt. If the command is valid, it implements the fork function to create a child 
+process that is responsible for executing the commands that the user entered, 
+and the parent process will be responsible for freeing the memory and re-executing the process from the promt. To close our shell the user must use the CTRL + D (EOF) 
+signal or write the exit command.
+
+
+RETURN VALUE
+
+Ninguno
+
+
+INTERNAL FUNCTIONS
+
+FILE SHELL.C
+
+- funtion split_input
+  En esta funcion entra el buffer que capturo el string que digito el usuario, divide las palabras cada ves que encuentre un espacio, crea un malloc para guardar cada una  y nos devuelve una matris de strings.
+
+  Su prototipo es el siguiente:
+  char **split_input(char *buffer);
+
+- funtion quit_spaces
+  En esta funcion entran las palabras que encontro en la funcion split_input y quita los espacios innecesarios.
+
+  Su prototipo es el siguiente:
+  void quit_spaces(char **commands);
+
+- Funtion solo_spaces
+  en esta funcion determina si el usuario ingreso lo espacios, si es asi, vuelve al pront.
+
+  su prototipo es el siguiente:
+  int solo_spaces(char *buffer);
+
+FILE FORK.C
+
+- funtion call_fork
+  en esta funcion recibe las palabras ya separadas y sin espacios, la lista enlazada de directorios y un puntero tipo entero.el primer paso es revisar si el comando que nos entrega es una ruta que exista en nuestro entorno con la funcion acces, si no es una ruta entra a la funion existencia donde revisara si el comando existe en alguna carpeta de nuestro entorno,si no lo encuentra nos devuelve command not found y nos regresa al pront, de encontralo crea un proceso hijo donde vamos a ejecutar con la funcion execve que ejecuatara nuesto comando mientras que el padre espera la ejecucion del hijo termine. una ves terminado el proceso hijo el padre liberara el espacio en memoria que se habia reservado para nuestro commando.
+
+  su prototypo es el siguiente :
+  int call_fork(char **commands, directories *lista, int *salida);
+
+- funcion existencia 
+  la funcion existencia recibe el comandos y la lista enlazada de los directorios del PATH, crea un string y con el comando y cada una de las carpetas del PATH. una ves echo el string entra a la funcion access, si encuentra la ruta en nuestro entorno devuelve 1 sino devuelve 0.
+
+  su prototipo es el siguiente:
+  int existencia(char **command_0, directories *lista
+
+  
+  
+
+  FILE ENTORNO.C
+
+  - Funcion _getenv
+    en esta funcion sacara en una variable nuestro PATH. primero compara letra por letra PATH con cada una de las carpetas del entrono, cuando la encuentre, mueve un espacio que va ser el igual y copiara todas las carpetas en la variable path.
+
+    su prototipo es el siguiente:
+    char *_getenv(const char *name)
+
+
+  - Funcion _path_directories
+    esta funcion crea una lista enlazada, cada nodo se va a crear con la funcion add_node y va a contener cada una de las carpetas que previamente almacenamos en la variable path.
+
+    su prototipo es el siguiente:
+    directories *path_directories(void)
+
+  - funcion add_node
+    esta funcion crea un nuevo nodo para cada carpeta del PATH.
+
+    su prototipo es el siguiente:
+    dir *add_node(dir **head, const char *str)
+
+
+  
