@@ -1,12 +1,12 @@
 #include "holberton.h"
 
 /**
- * solo_spaces - Check if the buffer contains just spaces
+ * only_spaces - Check if the buffer contains just spaces
  * @buffer: The buffer
  *
  * Return: 1 if are just spaces, 0  if not.
  */
-int solo_spaces(char *buffer)
+int only_spaces(char *buffer)
 {
 	int i = 0, control = 1;
 

@@ -31,7 +31,7 @@ int main(int argc, char *argv[], char *env[])
 		else if (characters == 1)
 			continue;
 		buffer[characters - 1] = '\0';
-		if (solo_spaces(buffer) == 1)
+		if (only_spaces(buffer) == 1)
 			continue;
 		commands = split_input(buffer);
 		if (commands == NULL)

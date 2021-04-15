@@ -1,6 +1,5 @@
 #ifndef HOLBERTON_H
 #define HOLBERTON_H
-#define _GNU_SOURCE
 
 #include <stdio.h>	/*getline - dprintf*/
 #include <stdlib.h> /*malloc - exit*/
@@ -15,17 +14,6 @@ extern char **environ;
 
 /* Structures */
 /**
- * struct list_d - Save the PATH directories
- * @directory: One of the PATH directories
- * @next: Pointer to nex node
- */
-typedef struct list_d
-{
-	char *directory;
-	struct list_d *next;
-} dir;
-
-/**
  * struct ch_fmt - sees if the format matches
  * @c: the char of the format
  * @f: function to make
@@ -38,7 +26,7 @@ typedef struct ch_fmt
 
 /*shell.c */
 
-int solo_spaces(char *buffer);
+int only_spaces(char *buffer);
 
 char **split_input(char *buffer);
 
@@ -55,12 +43,6 @@ int call_fork(char **commands, int *salir, char *env[]);
 /*entorno.c*/
 
 char *_getenv(const char *name, char *env[]);
-
-dir *add_node(dir **head, const char *str);
-
-dir *path_directories(void);
-
-void free_list(dir **head);
 
 /*built_ins.c*/
 
