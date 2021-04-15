@@ -50,7 +50,7 @@ and the parent process will be responsible for freeing the memory and re-executi
 process from the promt. To close our shell the user must use the CTRL + D (EOF) 
 signal or write the exit command.
 
------------
+-------------
 
 # Files
 
