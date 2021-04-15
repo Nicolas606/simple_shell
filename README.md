@@ -114,6 +114,6 @@ list of our PATH and takes us out of the shell.
 
 - The ** env ** function prints the folders in the local environment one by one.
 
--------------
+---------------
 
 # Function flow
