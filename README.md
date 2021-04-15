@@ -117,3 +117,5 @@ list of our PATH and takes us out of the shell.
 ---------------
 
 # Function flow
+
+![flow 1](https://imagizer.imageshack.com/img922/2969/57E739.jpg)
