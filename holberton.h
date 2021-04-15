@@ -32,13 +32,13 @@ char **split_input(char *buffer);
 
 void quit_spaces(char **commands);
 
-int comp(int line, int *salir, char **commands, char *argv[], char *path);
+int comp(int line, int *salir, char **commands, char *argv[]);
 
-int existencia(char **command_0, char *path);
+int existencia(char **command_0);
 
 /*fork.c*/
 
-int call_fork(char **commands, int *salir, char *env[]);
+int call_fork(char **commands, int *salir);
 
 /*entorno.c*/
 

@@ -53,7 +53,7 @@ int find_m(const char * const fmt, va_list list, char *buff, int p, int *i)
 int _printf(int fd, const char * const format, ...)
 {
 	int i = 0, pos_wrt = 0;
-	char buffer[2148];
+	char buffer[3148];
 	va_list args_l;
 	int *i_ptr = &i;
 
