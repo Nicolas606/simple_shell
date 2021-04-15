@@ -1,5 +1,6 @@
 #ifndef HOLBERTON_H
 #define HOLBERTON_H
+#define _GNU_SOURCE
 
 #include <stdio.h>	/*getline - dprintf*/
 #include <stdlib.h> /*malloc - exit*/
