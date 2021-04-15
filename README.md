@@ -1,6 +1,6 @@
 # simple_shell
 
-this repository contains our shell version programmed in the C language, it can 
+This repository contains our shell version programmed in the C language, it can 
 be used interactively and non-interactively:
 
 **first have complie this way**
@@ -54,66 +54,98 @@ signal or write the exit command.
 
 # Files
 
-###  holberton.h
+###  [holberton.h](https://github.com/Nicolas606/simple_shell/blob/main/holberton.h "holberton.h")
 
-This file contains the environment structure to create the linked list of the 
-PATH, it also contains the prototypes of the functions contained in the files 
+This file contains the prototypes and struct of the functions contained in the files 
 and functions described below.
 
 
-### main.c 
+###  [main.c](https://github.com/Nicolas606/simple_shell/blob/main/main.c "main.c")
 
 In this file is the main that will execute all our functions. The prototype
 of our main function is the following:
 
-int main(int argc \__ attribute \__((unused)), char *argv[]  \__ attribute __ ((unused)));
+**int main(int argc, char *argv[], char *env[]);**
 
-### shell.c
-
-In this file you will find the functions in charge of translating the commands 
-written by the user:
-
-- The ** split_input ** function separates the words every time it finds a space 
-and returns the number of words it found.
-
-- The ** quit_spaces ** function receives the words returned by the split_input 
-function and checks if saved unnecessary spaces and removes.
-
-- The ** existence ** function checks if the word the user entered is a system 
-function, if not, it returns "command not found".
-
-- The ** call_fork ** function creates a child function where the function that 
-the user wants will be executed.
-
-### entorno.c
-
-In this file you will find the functions that together create and return a 
-linked list with the PATH directories to check the existence of the commands 
-written by the user:
-
-- The ** path_directories ** function creates a linked list of the folders in 
-the PATH.
-
-- The ** _getenv ** function takes care of copying the PATH folders one by one.
-
-- The ** add_node ** function adds each folder in the PATH to a new node.
-
-- The ** free_list ** function frees the memory that we have allocated to the 
-linked list of directories.
-
-### build_ins.c
+### [build_ins.c](https://github.com/Nicolas606/simple_shell/blob/main/built_ins.c "build_ins.c")
 
 In this file you will find the functions to know what to do in case the user 
 types "exit" or "env":
 
-- The ** build_ins ** function compares if what the user entered are the words 
+- The **build_ins** function compares if what the user entered are the words 
 "exit" or "env", if it does not return 0.
 
-- The ** n_exit ** function frees the space that was reserved for the linked 
+- The **n_exit** function frees the space that was reserved for the linked 
 list of our PATH and takes us out of the shell.
 
-- The ** env ** function prints the folders in the local environment one by one.
+- The **env** function prints the folders in the local environment one by one.
 
+### [entorno.c](https://github.com/Nicolas606/simple_shell/blob/main/entorno.c "entorno.c")
+
+In this file you will find the function create a variable whit 
+the PATH directories:
+
+- The **_getenv** function takes care of copying the PATH folders one by one.
+
+
+### [fork.c](https://github.com/Nicolas606/simple_shell/blob/main/fork.c "fork.c")
+
+In this file it finds the functions to check if the file exists in the PATH, if it finds it it creates a child process to execute the function.
+
+- The **comp** function Check if command exist in directory or environment.
+
+- The **existencia** function check if a command file exist in the PATH directories.
+
+- The **call_fork** function Check if a command exists, and executes it.
+
+### [printf_char.c ](https://github.com/Nicolas606/simple_shell/blob/main/printf_char.c "printf_char.c ")
+
+In this file find the functions whit use the function _pritnf
+
+- The **print_char** function places a character in a buffer array at the indicated position.
+
+- The **print_string** function converts the entire string into characters and places them in an array buffer from the indicated position.
+
+### [print_int.c](https://github.com/Nicolas606/simple_shell/blob/main/printf_int.c "print_int-c") 
+
+In this file find the functions whit use the function _pritnf.
+
+- The function **print_int** converts each digit of an integer into characters and places them in a buffer array from the indicated position.
+
+- The function **len_dig** calculates the number of digits that an int data contains.
+
+- The funcion **print_u_int** Converts each digit of an unsigned integer to characters and places them in a buffer array from the indicated position.
+
+- The funcion **len_u_dig** calculates the number of digits that an unsigned int data contains.
+
+### [printf.c ](https://github.com/Nicolas606/simple_shell/blob/main/printf_int.c "printf.c ")
+
+The **_printf** function is a variatic function that receives as a formal argument a const char const pointer "fortmat", writes its characters "exactly the same" in the standard output using the write function and returns an integer, which is the number of characters that were sent. to stdout without taking null characters into account.
+
+### [shell.c](https://github.com/Nicolas606/simple_shell/blob/main/shell.c "shell.c")
+
+In this file you will find the functions in charge of translating the commands 
+written by the user:
+
+- The **split_input** function separates the words every time it finds a space 
+and returns the number of words it found.
+
+- The **quit_spaces** function receives the words returned by the split_input 
+function and checks if saved unnecessary spaces and removes.
+
+- The **only_spaces** function check if the buffer contains just spaces
+
+### [string.c](https://github.com/Nicolas606/simple_shell/blob/main/string.c "string.c")
+
+this file contains the functions pfor copy,compare, concatenate and duplicate a string.
+
+- The **_strcpy** function that copies the string pointed to by src, including the terminating null byte (\0), to the buffer pointed to by dest
+
+- The **_strcmp**  function that compares two strings.
+
+- The **_strcat** function that concatenates two strings.
+
+- The **_strdup** function that returns a pointer to a newly allocated space in memory, which contains a copy of the string given as a parameter.
 ---------------
 
 # Function flow

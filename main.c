@@ -12,9 +12,8 @@ int main(int argc, char *argv[], char *env[])
 	char *buffer = NULL, **commands = NULL;
 	size_t bufsize = 0;
 	int characters = 0, salir = 0, recorrido = 1, line = 0;
-	char *path = _getenv("PATH", env);
 
-	(void)argc, (void)argv;
+	(void)argc, (void)argv, (void)env;
 	signal(SIGINT, SIG_IGN);
 	while (characters >= 0)
 	{
@@ -25,13 +24,12 @@ int main(int argc, char *argv[], char *env[])
 		characters = getline(&buffer, &bufsize, stdin);
 		if (characters == EOF)
 		{
-			_printf(1, "\n", 1);
 			n_exit(buffer, salir);
 		}
 		else if (characters == 1)
 			continue;
 		buffer[characters - 1] = '\0';
-		if (solo_spaces(buffer) == 1)
+		if (only_spaces(buffer) == 1)
 			continue;
 		commands = split_input(buffer);
 		if (commands == NULL)
@@ -41,10 +39,10 @@ int main(int argc, char *argv[], char *env[])
 		}
 		if (b_ins(commands, buffer, salir) == 1)
 			continue;
-		else if (comp(line, &salir, commands, argv, path) != 1)
+		else if (comp(line, &salir, commands, argv) != 1)
 			continue;
 		else
-			call_fork(commands, &salir, env);
+			call_fork(commands, &salir);
 	}
 	return (salir);
 }

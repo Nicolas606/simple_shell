@@ -15,17 +15,6 @@ extern char **environ;
 
 /* Structures */
 /**
- * struct list_d - Save the PATH directories
- * @directory: One of the PATH directories
- * @next: Pointer to nex node
- */
-typedef struct list_d
-{
-	char *directory;
-	struct list_d *next;
-} dir;
-
-/**
  * struct ch_fmt - sees if the format matches
  * @c: the char of the format
  * @f: function to make
@@ -38,29 +27,23 @@ typedef struct ch_fmt
 
 /*shell.c */
 
-int solo_spaces(char *buffer);
+int only_spaces(char *buffer);
 
 char **split_input(char *buffer);
 
 void quit_spaces(char **commands);
 
-int comp(int line, int *salir, char **commands, char *argv[], char *path);
+int comp(int line, int *salir, char **commands, char *argv[]);
 
-int existencia(char **command_0, char *path);
+int existencia(char **command_0);
 
 /*fork.c*/
 
-int call_fork(char **commands, int *salir, char *env[]);
+int call_fork(char **commands, int *salir);
 
 /*entorno.c*/
 
 char *_getenv(const char *name, char *env[]);
-
-dir *add_node(dir **head, const char *str);
-
-dir *path_directories(void);
-
-void free_list(dir **head);
 
 /*built_ins.c*/
 
