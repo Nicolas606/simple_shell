@@ -22,7 +22,8 @@ the user's PATH. If the command does not exist or its arguments are not valid,
 print an error message in the standard error and start the click again from the 
 promt. If the command is valid, it implements the fork function to create a child 
 process that is responsible for executing the commands that the user entered, 
-and the parent process will be responsible for freeing the memory and re-executing the process from the promt. To close our shell the user must use the CTRL + D (EOF) 
+and the parent process will be responsible for freeing the memory and re-executing
+the process from the promt. To close our shell the user must use the CTRL + D (EOF) 
 signal or write the exit command.
 
 
@@ -35,61 +36,146 @@ INTERNAL FUNCTIONS
 
 FILE SHELL.C
 
-- funtion split_input
-  En esta funcion entra el buffer que capturo el string que digito el usuario, divide las palabras cada ves que encuentre un espacio, crea un malloc para guardar cada una  y nos devuelve una matris de strings.
+- Funtion only_spaces
+    In this function it determines if the user entered only spaces, if so, it 
+    returns 1.
 
-  Su prototipo es el siguiente:
-  char **split_input(char *buffer);
+    Its prototype is the following:
+    int solo_spaces(char *buffer);
+
+- funtion split_input
+    This function enters the buffer that captured the string that the user entered,
+    divides the words every time it finds a space, creates a malloc to save each
+    one and returns an array of strings.
+
+    Its prototype is the following:
+    char **split_input(char *buffer);
 
 - funtion quit_spaces
-  En esta funcion entran las palabras que encontro en la funcion split_input y quita los espacios innecesarios.
+    In this function enter the words found in the split_input function and remove
+    unnecessary spaces.
 
-  Su prototipo es el siguiente:
-  void quit_spaces(char **commands);
-
-- Funtion solo_spaces
-  en esta funcion determina si el usuario ingreso lo espacios, si es asi, vuelve al pront.
-
-  su prototipo es el siguiente:
-  int solo_spaces(char *buffer);
+    Its prototype is the following:
+    void quit_spaces(char **commands);
 
 FILE FORK.C
 
-- funtion call_fork
-  en esta funcion recibe las palabras ya separadas y sin espacios, la lista enlazada de directorios y un puntero tipo entero.el primer paso es revisar si el comando que nos entrega es una ruta que exista en nuestro entorno con la funcion acces, si no es una ruta entra a la funion existencia donde revisara si el comando existe en alguna carpeta de nuestro entorno,si no lo encuentra nos devuelve command not found y nos regresa al pront, de encontralo crea un proceso hijo donde vamos a ejecutar con la funcion execve que ejecuatara nuesto comando mientras que el padre espera la ejecucion del hijo termine. una ves terminado el proceso hijo el padre liberara el espacio en memoria que se habia reservado para nuestro commando.
+-fucntion comp
+    In this function comp it evaluates if the command file is in the current folder
+    or is a file in a valid path, if it does not call the existence function. If
+    the comp function finds the file and has execution permission, it returns 1,
+    if it does not exist it changes the output variable to 127 and returns 0, if
+    it exists but is not executable change the variable salida to 126 and returns 0
 
-  su prototypo es el siguiente :
-  int call_fork(char **commands, directories *lista, int *salida);
+    Its prototype is the following:
+    int comp(int line, int *salir, char **commands, char *argv[])
 
 - funcion existencia 
-  la funcion existencia recibe el comandos y la lista enlazada de los directorios del PATH, crea un string y con el comando y cada una de las carpetas del PATH. una ves echo el string entra a la funcion access, si encuentra la ruta en nuestro entorno devuelve 1 sino devuelve 0.
+    The existencia function receives the command and executes the _getenv () function
 
-  su prototipo es el siguiente:
-  int existencia(char **command_0, directories *lista
+    to obtain the directories of the environment's PATH and find if the file exists
+    for said command, if it finds the path in our environment, it modifies the command
+    pointer adding the full path and returns 1, if it doesn't return 0.
 
+    Its prototype is the following:
+    int existencia(char **command_0)
+
+
+- funtion call_fork
+    If comp finds the command to execute this function, it receives the address 
+    of the program's output variable and a matrix char ** with the arguments ready
+    to execute the fork () function; This function creates a child process where 
+    it will execute the command and the parent process waits for the child process 
+    to finish its execution and frees the memory occupied by the command and its 
+    arguments, references the output variable with the WEXITSTATUS of the child 
+    process and returns 0 always.
   
-  
+    Its prototype is the following:
+    int call_fork(char **commands, int *salir);
 
-  FILE ENTORNO.C
+FILE ENTORNO.C
 
   - Funcion _getenv
-    en esta funcion sacara en una variable nuestro PATH. primero compara letra por letra PATH con cada una de las carpetas del entrono, cuando la encuentre, mueve un espacio que va ser el igual y copiara todas las carpetas en la variable path.
+    in this function it will extract the directories of our PATH in an array. 
+    first it compares letter by letter PATH with each of the folders in the 
+    environment, when it finds it, it moves a space that will be the same and it 
+    will copy all the folders in the path variable
 
-    su prototipo es el siguiente:
-    char *_getenv(const char *name)
+    Its prototype is the following:
+    char *_getenv(const char *name, char *env[])
+
+FILE BUILT_INS.C
+
+  - Funcion b_ins
+    In this function we enter the command entered by the user and buy if it is 
+    the word "exit" or "env", if it finds a match, it performs the necessary memory 
+    release and enters the respective function and returns 1, if it does not find 
+    a match, it returns 0.
+
+    Its prototype is the following:
+    int b_ins(char **commands, char *buffer, int salida); 
+
+  - funcion n_exit
+    In this function, it frees the memory housed in the buffer and ends the program 
+    with the corresponding output.
+
+    Its prototype is the following:
+    void n_exit(char *buffer, int salida);
+
+  -funcion env
+    In this function all our local environment will be printed.
+
+    Its prototype is the following:
+    void env(void)
+
+FILE PRINTF_CHAR.C
+
+  -Function print_char().
+    To print characters the _printf () function must first receive the% c specifier 
+    that calls the print_char function, this function saves the character in a char 
+    type variable. After saving it, copies this character in the buffer and return 1.
+
+    Its prototype is the following:
+    int print_char(va_list a, char buffer, int index);
+
+  -Functions print_string:
+    To print integers the function _printf must make a conversion from the string 
+    to characters, it does so by calling the internal function print_string, which 
+    runs through the string given as a variatic argument and assigns each character 
+    of it in a position of the buffer, then returns the number of positioned characters.
+
+    Its prototype is the following:
+    int print_string(va_list a, char buffer, int index);
+
+FILE PRINTF_INT.C
+
+  -Function print_int:
+    To print integers the function _printf () must make a conversion of each digit 
+    of the integer to a character, it does so by calling the internal function 
+    print_int, this calculates the number of digits of the integer to allocate a 
+    memory space with the same amount in bytes to a "variable" pointer to char, 
+    and to each position it assigns an integer digit in the corresponding position. 
+    Once this part is done, it copies the character digits in the buffer, frees the 
+    allocated memory and returns the number of digits written.
+
+    Its prototype is the following:
+    int print_int(va_list a, char buffer, int index);
+
+  - Function print_u_int:
+    To print unsigned integers the function _printf () must make a conversion of 
+    each digit of the integer to a character, it does so by calling the internal 
+    function print_u_int, this calculates the number of digits of the integer to 
+    allocate a memory space with the same amount in bytes to a "variable" pointer 
+    to char, and to each position it assigns an integer digit in the corresponding 
+    position. Once this part is done, it writes to the standard of this "variable", 
+    frees the allocated memory and returns the number of digits written.
+
+    Its prototype is the following:
+    int print_u_int(va_list a, char buffer, int index);
 
 
-  - Funcion _path_directories
-    esta funcion crea una lista enlazada, cada nodo se va a crear con la funcion add_node y va a contener cada una de las carpetas que previamente almacenamos en la variable path.
+  AUTHORS:
+      Jordan Bonnett, Leonardo Ruiz, Nicolas Ccastillo.
 
-    su prototipo es el siguiente:
-    directories *path_directories(void)
-
-  - funcion add_node
-    esta funcion crea un nuevo nodo para cada carpeta del PATH.
-
-    su prototipo es el siguiente:
-    dir *add_node(dir **head, const char *str)
-
-
-  
+  DATE:
+    15/02/2021
