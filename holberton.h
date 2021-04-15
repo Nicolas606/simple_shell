@@ -41,17 +41,17 @@ char **split_input(char *buffer);
 
 void quit_spaces(char **commands);
 
-int comprueba(int line, int *salir, char **commands, char *argv[]);
+int comp(int line, int *salir, char **commands, char *argv[], char *path);
 
-int existencia(char **command_0);
+int existencia(char **command_0, char *path);
 
 /*fork.c*/
 
-int call_fork(char **commands, int *salir);
+int call_fork(char **commands, int *salir, char *env[]);
 
 /*entorno.c*/
 
-char *_getenv(const char *name);
+char *_getenv(const char *name, char *env[]);
 
 dir *add_node(dir **head, const char *str);
 
